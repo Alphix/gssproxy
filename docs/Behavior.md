@@ -1,33 +1,23 @@
-This little document is about the current behavior of the GSSProxy and the
-libgssapi interposer plugin.
-Each is documented separately.
+# Behavior
 
-Note that the GSSProxy act as server not only for the interposer plugin but
-also directly for the kernel and potentially for other clients, so the proxy
+This document describes the current behavior of `gssproxy` and the `libgssapi`
+interposer plugin.
+
+Note that `gssproxy` acts as server not only for the interposer plugin but also
+directly for the kernel and, potentially, for other clients, so the proxy
 behavior may include additional behaviors not directly available to the
-libgssapi interposer plugin.
-
-NOTE:
-This document should be upgraded every time we change the proxy or the plugin
-behavior, however it is my experience that developers forget to do so, so here
-we have also a timestamp from the last update:
-20120910
-
-If it is way too much in the past then something in the actual code may not
-reflect this document anymore, and please yell at the current maintainer to
-bring it up to date :-)
+`libgssapi` interposer plugin.
 
 
-GSS Proxy
------------------------------------------------------------------------------
+## gssproxy
 
+### Application based behavior
 
-Application based behavior:
-Currently GSS Proxy can be configure to behave differently for each 'user'
-connecting to it. By user here we really mean euid at this point (we are
+Currently `gssproxy` can be configured to behave differently for each user
+connecting to it. By "user" here we really mean `euid` at this point (we are
 planning to make it possible to act on a per-application basis provided SELinux
-is used and each application has a different label that can be trasmitted via
-SM Rights like calls).
+is used and each application has a different label that can be transmitted via
+SCM Rights like calls).
 
 The euid is obtained through a SCM Rigths call on the Unix Socket used to talk
 to the proxy.
@@ -44,10 +34,8 @@ specified in an optional field in the protocol).
 The following table represent the current thinking around default/allowed
 behavior depending on the connecting peer:
 
---------------------------------------------------------------------
-|  Operation   |       Initiate       |         Accept             |
-|Peer          |                      |                            |
---------------------------------------------------------------------
+| Peer         | Initiate       |         Accept             |
+| ------------ | -------------- | -------------------------- |
 |              |With ccache available | Never allow to accept for  |
 |euid not      |always try to init    | unconfigured euids         |
 |explicitly    |                      |                            |
@@ -57,7 +45,7 @@ behavior depending on the connecting peer:
 |              |Never use keytab      |                            |
 ---------------|----------------------|-----------------------------
 |              |With ccache available | If keytab is explicitly    |
-|euid X        |always try to init    | configured always allow to |
+|`euid != 0`        |always try to init    | configured always allow to |
 |(referenced   |                      | try to accept via proxy    |
 | explicitly   |When keytab available |                            |
 | in a config  |init with keytab only |                            |
@@ -66,46 +54,44 @@ behavior depending on the connecting peer:
 |              |krb5_init_with_keytab |                            |
 |              |defaults to False     |                            |
 ---------------|----------------------|-----------------------------
-|              |                      | If keytab is explicitly    |
-|euid 0        |                      | configured always allow to |
+| `euid 0`     |                      | If keytab is explicitly    |
+|              |                      | configured always allow to |
 |              |                      | try to accept via proxy    |
 |              |                      |                            |
 |              |                      | Allow to fallback to host  |
 |              |                      | keytab if not configured ? |
 --------------------------------------------------------------------
 
+### Credentials
 
-
-Credentials:
 At the moment the GSS Proxy cannot be fully stateless due to limitations in
 GSSAPI (they are being addressed in MIT 1.11). The gss-proxy keeps a list of
 credential structs in a ring buffer and sends applications an encrypted token to
 reference them when the same credential needs to be used across multiple calls.
 
-Contexts:
-Context are always exported to the clients once obtained.
-Currently both lucid-type contexts and native MIT format contexts are
-supported.
+### Contexts
+
+Context are always exported to the clients once obtained.  Currently both
+lucid-type contexts and native MIT format contexts are supported.
 
 
+## libgssapi Interposer Plugin
 
+The interposer plugin currently tries to perform local only operations first
+and falls back to attempting proxy communication if it can't obtain
+contexts/credentials using local calls (`LOCAL_ONLY`, this default can be
+changed at compile-time).
 
+Furthermore, the interposer plugin behavior can be configured via the
+`GSSPROXY_BEHAVIOR` environment variable, which accepts four different values:
 
+* `LOCAL_ONLY`
+* `LOCAL_FIRST`
+* `REMOTE_ONLY`
+* `REMOTE_FIRST`
 
+See `man gssproxy-mec 8` for further details.
 
-libgssapi Interposer Plugin
------------------------------------------------------------------------------
-
-The Interposer plugin currently tries to perform local only operations first
-and falls back to try proxy communication if it can't obtain
-contexts/credentials using local calls.
-Also an environment variable can be used to change this behavior somewhat
-(NOTE: still inconsistent while developing the feature). The variable is
-called: GSSPROXY_BEHAVIOR and allowed values are: LOCAL_ONLY, LOCAL_FIRST,
-REMOTE_ONLY, REMOTE_FIRST.
-
-Currently only a hardcoded set of mechanism is supported, however in future it
-is planned that the supported set of mechanism to be queried from the gssproxy
-and/or the configuration file instead.
-
-
+Currently only a hardcoded set of mechanisms is supported. In the future it is
+planned that the supported set of mechanisms can be queried from `gssproxy` or
+the configuration file instead.

@@ -1,28 +1,3 @@
----
-title: Get started with GitHub documentation
-shortTitle: Get started
-intro: 'Learn how to start building, shipping, and maintaining software with {% data variables.product.prodname_dotcom %}. Explore our products, sign up for an account, and connect with the world''s largest development community.'
-topics:
-  - Pull requests
-  - Issues
-  - Notifications
-  - Accounts
-children:
-  - /quickstart
-  - /onboarding
-  - /learning-about-github
-  - /signing-up-for-github
-  - /using-github
-  - /writing-on-github
-  - /exploring-projects-on-github
-  - /getting-started-with-git
-  - /using-git
-  - /working-with-subversion-on-github
-  - /exploring-integrations
-  - /archiving-your-github-personal-account-and-public-repositories
-  - /using-github-docs
----
-
 # Getting started with gssproxy
 
 This document attempts to cover how to use gssproxy with any simple,
@@ -38,10 +13,6 @@ More specific topics are covered by other documents:
 * [Separate NFS and SMB/CIFS configuration](network_fs_clients.md)
 * [Protocol Documentation](ProtocolDocumentation.md)
 * [The Release Process](ReleaseProcess.md)
-
-(Behavior, ProtocolDocumentation) as well as configuration walkthroughs for
-specific services (Apache, NFS) and information on our releases
-(ReleaseProcess, Releases).
 
 
 ## Background
@@ -62,6 +33,7 @@ application.
 
 This is completely transparent to the application.  However, some
 configuration is required, which we'll now go through.
+
 
 ## Configuring gssproxy
 
@@ -117,6 +89,7 @@ In the end, we would end up with a config file that looks a bit like this:
 And tell gssproxy to use the new configuration file: `systemctl
 try-reload-or-restart gssproxy`
 
+
 ## Configuring the application
 
 In order for the application to attempt to use gssproxy, it needs an
@@ -145,6 +118,7 @@ and then reload the systemd state: `systemctl daemon-reload`.
 
 From there, (re)start your application and you're off to the races!
 
+
 ## Using a custom socket
 
 Normally, gssproxy traffic all runs over the same socket, which typically
@@ -161,6 +135,7 @@ reload gssproxy's configuration: `systemctl try-reload-or-restart gssproxy`.
 To configure the client, we need to set another environment variable:
 `GSSPROXY_SOCKET`.  So, we set that in the same way we set `GSS_USE_PROXY`
 (i.e., `GSSPROXY_SOCKET=/var/lib/gssproxy/my_app.sock`), and launch.
+
 
 ## How to know it's working
 
