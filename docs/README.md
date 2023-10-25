@@ -1,6 +1,10 @@
 # Getting started with gssproxy
 
-In this folder is detailed documentation on how gssproxy works internally
+This folder contains documentation on how gssproxy works internally.
+
+* [NFS.md](NFS.md)
+* [Apache.md](Apache.md)
+
 (Behavior, ProtocolDocumentation) as well as configuration walkthroughs for
 specific services (Apache, NFS) and information on our releases
 (ReleaseProcess, Releases).

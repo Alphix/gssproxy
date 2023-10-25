@@ -3,7 +3,8 @@
 
 This is the gss-proxy project.
 
-Documentation lives in the [docs folder of this
+Documentation lives in the [docs folder](/docs/README.md), the
+latest version can be found in the [upstream
 repository](https://github.com/gssapi/gssproxy/tree/master/docs).
 
 The goal is to have a GSS-API proxy, with standardizable protocol and a
@@ -15,7 +16,7 @@ are several motivations for this some of which are:
    the kernel by upcalling to a daemon that does all the dirty work.
 
  - Isolation and privilege separation for user-mode applications.  For
-   example: letting HTTP servers use but not see the keytabe entries for
+   example: letting HTTP servers use but not see the keytab entries for
    HTTP/* principals for accepting security contexts.
 
  - Possibly an ssh-agent-like SSH agent for GSS credentials -- a
