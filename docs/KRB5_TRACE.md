@@ -1,6 +1,6 @@
-# Setting KRB5_TRACE for gssproxy
+# Kerberos Debugging
 
-This document explain how to obtain KRB5 tracing output.
+This document explain how to obtain KRB5 tracing output with `gssproxy`.
 
 It is possible to get KRB5 tracing information together with gssproxy
 debugging information on Standard Error[^1] by simply running the
@@ -22,7 +22,7 @@ trace output to `/var/lib/gssproxy` to avoid changes to SELinux policy.
 Ways to obtain KRB5 tracing output:
 
 - Increase gssproxy debugging so that `KRB5_TRACE` information is logged
-as described in `# man gssproxy.conf`.
+  as described in `man 5 gssproxy.conf`.
 
 ```
 # echo ' debug_level = 3' >> /etc/gssproxy/gssproxy.conf
@@ -43,11 +43,11 @@ EOF
 
 ---
 [^1]: Until recently, an [issue](https://github.com/gssapi/gssproxy/issues/44)
-with how the standard error is setup **required** redirection to an
-actual file in order to obtain any KRB5 Tracing information. If you are
-using an older version of gssproxy you will need to set the KRB5_TRACE
-environment variable to an actual file, changing debug level will not
-be sufficient.
+      with how the standard error is setup **required** redirection to an
+      actual file in order to obtain any KRB5 Tracing information. If you are
+      using an older version of gssproxy you will need to set the `KRB5_TRACE`
+      environment variable to an actual file, changing the debug level will not
+      be sufficient.
 
-[^2]: Setting KRB5_TRACE will cause KRB5 tracing information to be
-emitted regradless of gssproxy's debug level.
+[^2]: Setting `KRB5_TRACE` will cause tracing information to be emitted
+      regardless of `gssproxy`'s debug level.

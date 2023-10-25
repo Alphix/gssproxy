@@ -23,4 +23,4 @@ are several motivations for this, some of which are:
 
 We have a
 [mailing list](https://lists.fedorahosted.org/archives/list/gss-proxy@lists.fedorahosted.org/)
-and an IRC channel (#gssapi on [libera.chat](https://libera.chat/)).
+and an IRC channel (`#gssapi` on [libera.chat](https://libera.chat/)).

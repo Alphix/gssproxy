@@ -1,8 +1,8 @@
 # Getting started with gssproxy
 
-This document attempts to cover how to use gssproxy with any simple,
-well-behaved service, and explain in broad strokes what each step
-accomplishes.  All commands should be run as root.
+This document attempts to provide a gentle introduction by covering how to use
+`gssproxy` with any simple, well-behaved service, and explain in broad strokes
+what each step accomplishes.  All commands should be run as root.
 
 More specific topics are covered by other documents:
 
@@ -17,28 +17,31 @@ More specific topics are covered by other documents:
 
 ## Background
 
-The GSSAPI (Generic Security Services API) is a RFC-standardized interface for
-applications that wish to use security libraries.  Most commonly, GSSAPI is
-used as an interface to Kerberos, though there are other mechanisms provided
-as well (e.g., SPNEGO for Single-Sign On on the web; see the Apache docs in
-this folder for more information on that).
+The GSS-API (Generic Security Services API) is a standardized interface (see
+[RFC2743](https://datatracker.ietf.org/doc/html/rfc2743) for applications that
+wish to use security libraries.  Most commonly, GSS-API is used as an interface
+to Kerberos, though there are other mechanisms as well (e.g., `SPNEGO`
+for Single Sign-On on the web; see the [HTTP](HTTP.md) docs in this folder for
+more information).
 
-When an application uses GSSAPI, typically it will have direct access to its
-security credentials, and all cryptographic operations are performed in the
-application's process.  This is undesirable, but fortunately gssproxy can help
-in almost all use cases!  gssproxy provides privilege separation to
-applications using the GSSAPI: the gssproxy daemon runs on the system, holds
-the application's credentials, and performs operations on behalf of the
-application.
+When an application uses GSS-API, it will typically have direct access to its
+long-lived security credentials (for Kerberos, this would be a keytab), and all
+cryptographic operations are performed in the application's process.  This is
+undesirable, but fortunately `gssproxy` can help in almost all use cases.
 
-This is completely transparent to the application.  However, some
-configuration is required, which we'll now go through.
+`gssproxy` provides privilege separation to applications using GSS-API: the
+`gssproxy` daemon runs on the system, has access to the application's
+credentials, and performs operations on behalf of the application, which no
+longer needs direct access to the credentials.
+
+This is completely transparent to the application.  However, some configuration
+is required, which we'll now go through.
 
 
 ## Configuring gssproxy
 
 (For a detailed explanation of any of the options described in this section,
-see the man page for gssproxy.conf (`man 5 gssproxy.conf`).)
+see the man page for `gssproxy.conf` (`man 5 gssproxy.conf`).)
 
 gssproxy configuration typically lives in **/etc/gssproxy**.  On most systems,
 this directory will already contain a couple files, which can usually be
