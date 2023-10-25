@@ -1,17 +1,48 @@
+---
+title: Get started with GitHub documentation
+shortTitle: Get started
+intro: 'Learn how to start building, shipping, and maintaining software with {% data variables.product.prodname_dotcom %}. Explore our products, sign up for an account, and connect with the world''s largest development community.'
+topics:
+  - Pull requests
+  - Issues
+  - Notifications
+  - Accounts
+children:
+  - /quickstart
+  - /onboarding
+  - /learning-about-github
+  - /signing-up-for-github
+  - /using-github
+  - /writing-on-github
+  - /exploring-projects-on-github
+  - /getting-started-with-git
+  - /using-git
+  - /working-with-subversion-on-github
+  - /exploring-integrations
+  - /archiving-your-github-personal-account-and-public-repositories
+  - /using-github-docs
+---
+
 # Getting started with gssproxy
 
-This folder contains documentation on how gssproxy works internally.
+This document attempts to cover how to use gssproxy with any simple,
+well-behaved service, and explain in broad strokes what each step
+accomplishes.  All commands should be run as root.
 
-* [NFS.md](NFS.md)
-* [Apache.md](Apache.md)
+More specific topics are covered by other documents:
+
+* [NFS](NFS.md)
+* [Apache](Apache.md)
+* [Kerberos Debugging](KRB5_TRACE.md)
+* [Userproxy](Userproxy.md)
+* [Separate NFS and SMB/CIFS configuration](network_fs_clients.md)
+* [Protocol Documentation](ProtocolDocumentation.md)
+* [The Release Process](ReleaseProcess.md)
 
 (Behavior, ProtocolDocumentation) as well as configuration walkthroughs for
 specific services (Apache, NFS) and information on our releases
 (ReleaseProcess, Releases).
 
-This document attempts to cover how to use gssproxy with any simple,
-well-behaved service, and explain in broad strokes what each step
-accomplishes.  All commands should be run as root.
 
 ## Background
 
@@ -114,7 +145,7 @@ and then reload the systemd state: `systemctl daemon-reload`.
 
 From there, (re)start your application and you're off to the races!
 
-## Aside: using a custom socket
+## Using a custom socket
 
 Normally, gssproxy traffic all runs over the same socket, which typically
 lives in **/var/lib/gssproxy/default.sock**.  However, gssproxy can listen on
